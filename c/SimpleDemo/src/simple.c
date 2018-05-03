@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <plugin.h>
 
 typedef struct user_data_struct {
 	char data[256];
@@ -25,7 +26,7 @@ void GDN_EXPORT godot_gdnative_init(godot_gdnative_init_options *p_options) {
 			}; break;
 			default: break;
 		};
-	};	
+	};
 }
 
 void GDN_EXPORT godot_gdnative_terminate(godot_gdnative_terminate_options *p_options) {
@@ -34,6 +35,8 @@ void GDN_EXPORT godot_gdnative_terminate(godot_gdnative_terminate_options *p_opt
 }
 
 void GDN_EXPORT godot_nativescript_init(void *p_handle) {
+	hello();
+
 	godot_instance_create_func create = { NULL, NULL, NULL };
 	create.create_func = &simple_constructor;
 
@@ -52,7 +55,7 @@ void GDN_EXPORT godot_nativescript_init(void *p_handle) {
 
 GDCALLINGCONV void *simple_constructor(godot_object *p_instance, void *p_method_data) {
 	printf("SIMPLE._init()\n");
-	
+
 	user_data_struct *user_data = api->godot_alloc(sizeof(user_data_struct));
 	strcpy(user_data->data, "World from GDNative!");
 
